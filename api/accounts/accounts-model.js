@@ -1,21 +1,30 @@
-const getAll = () => {
-  // DO YOUR MAGIC
+const db = require('../../data/budget.js');
+
+async function getAll() {
+  const rows = await db('accounts')
+    .select('name', 'budget')
+  return rows;
 }
 
 const getById = id => {
-  // DO YOUR MAGIC
+  return db('accounts').where({id}).first()
 }
 
 const create = account => {
-  // DO YOUR MAGIC
+  const [id] = db('accounts').insert(account)
+  return getById(id)
 }
 
 const updateById = (id, account) => {
-  // DO YOUR MAGIC
+  return db('accounts')
+  .where(({id}))
+  .update(account, '*')
 }
 
 const deleteById = id => {
-  // DO YOUR MAGIC
+  return db('accounts')
+  .where({id})
+  .del()
 }
 
 module.exports = {
