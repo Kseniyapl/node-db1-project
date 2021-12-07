@@ -105,7 +105,7 @@ db('foo-table').where('id', id).delete() // resolves to the **number of records*
 
 ### Task 3: Stretch Problems
 
-The following exercises **require research**, the concepts needed to complete them have not been covered in class yet.
+The followin!g exercises **require research**, the concepts needed to complete them have not been covered in class yet.
 
 - Run more queries.
 
