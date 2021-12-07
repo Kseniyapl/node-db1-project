@@ -1,4 +1,4 @@
-const db = require('../../data/budget.js');
+const db = require('../../data/db-config.js');
 
 async function getAll() {
   const rows = await db('accounts')
