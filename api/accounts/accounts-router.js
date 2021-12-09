@@ -1,31 +1,22 @@
 const router = require('express').Router();
 const Account = require('./accounts-model')
-const{
-  errorHandling
-} = require('./accounts-middleware');
-const { reset } = require('nodemon');
+const md = require('./accounts-middleware')
 
-router.get('/', (req, res, next) => {
-  console.log("get all accounts")
-  Account.getAll()
-  .then(accounts => {
-    res.status(200).json(accounts)
-  })
-  .catch(err => {
-    res.status(400).json({ message: err })
-  })
+
+router.get('/', async (req, res, next) => {
+try{
+const accounts = await Account.getAll()
+res.json(accounts)
+}catch(err){
+  next(err)
+}
 })
 
-router.get('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
-  try{
-res.json('get account by id')
-  }catch(err){
-    next(err)
-  }
+router.get('/:id', md.checkAccountId, (req, res, next) => {
+   res.json(req.account)
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', md.checkAccountPayload, md.checkAccountNameUnique, (req, res, next) => {
   // DO YOUR MAGIC
   try{
     res.json('post account')
@@ -34,7 +25,7 @@ router.post('/', (req, res, next) => {
   }
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', md.checkAccountId, md.checkAccountPayload, md.checkAccountNameUnique, (req, res, next) => {
   // DO YOUR MAGIC
   try{
     res.json('update account by id')
@@ -43,7 +34,7 @@ router.put('/:id', (req, res, next) => {
   }
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', md.checkAccountId, (req, res, next) => {
   // DO YOUR MAGIC
   try{
     res.json('delete account')
@@ -51,11 +42,5 @@ router.delete('/:id', (req, res, next) => {
     next(err)
   }
 })
-
-router.use((err, req, res, next) => { // eslint-disable-line
-  // DO YOUR MAGIC
-  res.status(err.status || 500).json({message:err.message})
-})
-router.use(errorHandling);
 
 module.exports = router;
