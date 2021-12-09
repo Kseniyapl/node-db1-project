@@ -2,6 +2,7 @@ const Account = require('./accounts-model');
 const db =require('../../data/db-config');
 
 
+
 exports.checkAccountPayload = (req, res, next) => {
   if(!req.body.name || !req.body.budget) {
     res.status(400).json({message: "name and budget are required"})
@@ -56,4 +57,5 @@ exports.errorHandling = (err, req, res, next) => {
     message: `Horror in the router: ${err.message}`,
     stack: err.stack,
   });
+}
 }
